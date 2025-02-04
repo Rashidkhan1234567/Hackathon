@@ -1,0 +1,438 @@
+.app-header {
+  position: relative;
+  background: rgba(0, 0, 0, 0.8) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  height: 80px;
+  padding: 0 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+}
+
+.header-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.logo-container {
+  height: 48px; /* Fixed height */
+  display: flex;
+  align-items: center;
+  position: relative;
+  background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+  padding: 0 16px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  z-index: 2;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.logo-container:hover {
+  transform: translateZ(20px);
+}
+
+.logo-icon {
+  font-size: 2em;
+  color: #1890ff;
+  filter: drop-shadow(0 0 10px rgba(24, 144, 255, 0.5));
+  transition: all 0.3s ease;
+}
+
+.nav-menu {
+  position: relative;
+  z-index: 2;
+  background: transparent !important;
+  border: none;
+  margin: 0 48px;
+}
+
+.nav-menu .ant-menu-item {
+  padding: 0 24px;
+  margin: 0 4px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+
+.nav-menu .ant-menu-item:hover {
+  background: rgba(79, 70, 229, 0.1);
+  transform: translateY(-2px) translateZ(15px);
+  text-shadow: 0 0 10px rgba(24, 144, 255, 0.5);
+}
+
+.nav-menu .ant-menu-item-selected {
+  background: #4F46E5 !important;
+}
+
+.nav-menu .ant-menu-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transform: skewX(-25deg);
+  transition: 0.5s;
+}
+
+.nav-menu .ant-menu-item:hover::before {
+  left: 150%;
+}
+
+.auth-buttons {
+  gap: 12px;
+  position: relative;
+  z-index: 2;
+}
+
+.login-btn, .admin-btn {
+  height: 36px;
+  border-radius: 18px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #4F46E5, #3730A3);
+  border: none;
+  box-shadow: 
+    0 2px 4px rgba(0,0,0,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+  transform-style: preserve-3d;
+}
+
+.login-btn:hover, .admin-btn:hover {
+  transform: translateZ(20px);
+  box-shadow: 0 8px 16px rgba(24, 144, 255, 0.3);
+}
+
+.login-btn {
+  background: #4F46E5;
+  border: none;
+}
+
+.login-btn:hover {
+  background: #4338CA;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+  box-shadow: 0 0 15px rgba(79, 70, 229, 0.3);
+}
+
+.admin-btn {
+  background: linear-gradient(135deg, #334155, #1E293B);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #F1F5F9;
+}
+
+.admin-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(79, 70, 229, 0.3);
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  transform-style: preserve-3d;
+  transition: all 0.3s ease;
+}
+
+.logo-text:hover {
+  transform: translateZ(10px);
+}
+
+.logo-text-main {
+  background: linear-gradient(135deg, #fff, #94a3b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.2rem; /* Reduced size */
+  line-height: 1.2;
+  margin-bottom: 2px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.logo-text-sub {
+  background: linear-gradient(135deg, #94a3b8, #64748b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 0.7rem; /* Reduced size */
+  line-height: 1;
+  letter-spacing: 2px;
+}
+
+.ant-menu-dark .ant-menu-item-selected {
+  background-color: #4F46E5;
+}
+
+.ant-menu-dark .ant-menu-item:hover {
+  background-color: #4F46E5;
+  text-shadow: 0 0 10px rgba(79, 70, 229, 0.5);
+}
+
+.ant-menu-dark .ant-menu-item a {
+  color: #F1F5F9;
+}
+
+.ant-menu-dark .ant-menu-item a:hover {
+  color: #CBD5E1;
+}
+
+.ant-btn-primary {
+  background-color: #4F46E5;
+  border-color: #4F46E5;
+}
+
+.ant-btn-primary:hover {
+  background-color: #3730A3;
+  border-color: #3730A3;
+}
+
+.ant-btn-default {
+  background-color: #334155;
+  border-color: #334155;
+  color: #F1F5F9;
+}
+
+.ant-btn-default:hover {
+  background-color: #475569;
+  border-color: #475569;
+}
+
+.logo-link {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.logo-link:hover {
+  transform: scale(1.02);
+}
+
+.logo-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    left: 300%;
+  }
+}
+
+@keyframes float-up {
+  0% {
+    transform: translateY(64px) scale(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(32px) scale(1);
+    opacity: 0.3;
+  }
+  80% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(0) scale(0);
+    opacity: 0;
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.header-particles {
+  display: none;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .app-header {
+    padding: 0 20px;
+  }
+
+  .logo-text-sub {
+    display: none;
+  }
+
+  .nav-menu {
+    margin: 0 20px;
+  }
+
+  .nav-menu .ant-menu-item {
+    padding: 0 15px;
+  }
+
+  .auth-buttons .ant-btn {
+    padding: 0 15px;
+  }
+
+  .particle {
+    width: 1px;
+    height: 1px;
+  }
+}
+
+/* Add smooth scrolling to the whole page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Add loading animation for buttons */
+.login-btn::after,
+.admin-btn::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: inherit;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.login-btn:active::after,
+.admin-btn:active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.app-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.05) 25%,
+      transparent 25%,
+      transparent 75%,
+      rgba(255, 255, 255, 0.05) 75%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(79, 70, 229, 0.1),
+      rgba(56, 189, 248, 0.1)
+    );
+  background-size: 4px 4px, 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  z-index: 0;
+}
+
+.app-header::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: metallicSheen 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Metallic shine animation */
+@keyframes shine {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes glow {
+  0% {
+    filter: drop-shadow(0 0 2px rgba(56, 189, 248, 0.3));
+  }
+  100% {
+    filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.6));
+  }
+}
+
+/* Add new metallic sheen animation */
+@keyframes metallicSheen {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}

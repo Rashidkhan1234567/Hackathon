@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend Status</title>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            background: #0a0a0a;
+            font-family: 'Courier New', monospace;
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #0a0a0a;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: 50% 50%;
+        }
+
+        .status-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 20, 20, 0.95);
+            padding: 3rem;
+            border-radius: 15px;
+            border: 2px solid #0ff;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+            z-index: 100;
+            animation: pulse 2s infinite;
+            min-width: 400px;
+        }
+
+        .status-text {
+            color: #0ff;
+            font-size: 2.2rem;
+            text-align: center;
+            margin: 0 0 20px 0;
+            text-shadow: 0 0 10px #0ff;
+            letter-spacing: 3px;
+            font-weight: bold;
+        }
+
+        .status-details {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid rgba(0, 255, 255, 0.3);
+            font-size: 1.1rem;
+            color: #0ff;
+        }
+
+        .server-stat {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(0, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .server-stat:hover {
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .server-stat span:first-child {
+            font-weight: bold;
+            color: #80ffff;
+        }
+
+        .server-stat span:last-child {
+            color: #00ff95;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: blink 1.5s infinite;
+        }
+
+        .status-indicator.active {
+            background-color: #00ff00;
+            box-shadow: 0 0 10px #00ff00;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.3); }
+            50% { box-shadow: 0 0 50px rgba(0, 255, 255, 0.5); }
+            100% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.3); }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="status-box">
+        <p class="status-text">BACKEND SERVER</p>
+        <div class="status-details">
+            <div class="server-stat">
+                <span>STATUS</span>
+                <span><span class="status-indicator active"></span>OPERATIONAL</span>
+            </div>
+            <div class="server-stat">
+                <span>UPTIME</span>
+                <span id="uptime">00:00:00</span>
+            </div>
+            <div class="server-stat">
+                <span>RESPONSE</span>
+                <span><span class="status-indicator active"></span>ACTIVE</span>
+            </div>
+            <div class="server-stat">
+                <span>MEMORY</span>
+                <span id="memory">OPTIMAL</span>
+            </div>
+            <div class="server-stat">
+                <span>DATABASE</span>
+                <span><span class="status-indicator active"></span>CONNECTED</span>
+            </div>
+            <div class="server-stat">
+                <span>API VERSION</span>
+                <span>v1.0.0</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get server start time from backend
+        const serverStartTime = SERVER_START_TIME;
+
+        // Particles.js Configuration
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: '#0ff'
+                },
+                shape: {
+                    type: 'circle'
+                },
+                opacity: {
+                    value: 0.5,
+                    random: false,
+                    animation: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    animation: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#0ff',
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: true,
+                    straight: false,
+                    out_mode: 'bounce',
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'repulse'
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                },
+                modes: {
+                    repulse: {
+                        distance: 100,
+                        duration: 0.4
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
+        });
+
+        // Update uptime counter
+        function updateUptime() {
+            const now = Date.now();
+            const uptime = Math.floor((now - serverStartTime) / 1000);
+            
+            const hours = Math.floor(uptime/3600);
+            const minutes = Math.floor((uptime%3600)/60);
+            const secs = uptime%60;
+            
+            document.getElementById('uptime').textContent = 
+                `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+        }
+
+        setInterval(updateUptime, 1000);
+    </script>
+</body>
+</html>

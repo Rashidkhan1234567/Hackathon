@@ -1,0 +1,571 @@
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0a0a2e;
+  perspective: 1000px;
+  overflow: hidden;
+  position: relative;
+  backdrop-filter: blur(5px);
+  transform-style: preserve-3d;
+  transition: none;
+  will-change: transform;
+  transform-origin: center center;
+}
+
+.login-container::before {
+  content: "";
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  background: linear-gradient(
+    45deg,
+    rgba(24, 144, 255, 0.1),
+    rgba(114, 46, 209, 0.1)
+  );
+  animation: gradientMove 15s ease infinite;
+}
+
+.background-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.6;
+  transform: translate(
+    calc(var(--x-offset, 0px) * -0.5),
+    calc(var(--y-offset, 0px) * -0.5)
+  );
+}
+
+.login-card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 40px 30px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 420px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+  z-index: 1;
+  position: relative;
+  transition: none;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  will-change: transform;
+  transform: translateZ(50px);
+  backface-visibility: hidden;
+}
+
+.login-card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, #1890ff, #722ed1);
+  border-radius: 20px;
+  filter: blur(15px);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: -2;
+}
+
+.login-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+    rgba(255, 255, 255, 0.1), 
+    transparent 40%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.login-card:hover::before {
+  opacity: 0.5;
+}
+
+.login-card:hover::after {
+  opacity: 1;
+}
+
+.login-card.tilt-effect {
+  transition: none;
+}
+
+.glow-effect-3d {
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(24, 144, 255, 0.15),
+    transparent 50%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  transform: translateZ(-1px);
+}
+
+.login-card:hover .glow-effect-3d {
+  opacity: 1;
+}
+
+.login-title {
+  color: #fff !important;
+  text-shadow: 0 0 10px rgba(24, 144, 255, 0.5);
+  letter-spacing: 2px;
+  animation: titleFloat 3s ease-in-out infinite;
+  margin-bottom: 30px !important;
+  transform: translateZ(50px);
+}
+
+.custom-input {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+  backdrop-filter: blur(5px);
+  transform-style: preserve-3d;
+  transition: all 0.3s ease;
+}
+
+.custom-input input {
+  color: white !important;
+}
+
+/* Fix password input color */
+.custom-input.ant-input-password {
+  background: white !important;
+}
+
+.custom-input.ant-input-password input,
+.custom-input.ant-input-password input:hover,
+.custom-input.ant-input-password input:focus,
+.custom-input.ant-input-password:hover input,
+.custom-input.ant-input-password:focus input {
+  color: black !important;
+  background: white !important;
+}
+
+.custom-input.ant-input-password .ant-input-password-icon {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.custom-input.ant-input-password:hover .ant-input-password-icon,
+.custom-input.ant-input-password:focus .ant-input-password-icon,
+.custom-input.ant-input-password-focused .ant-input-password-icon {
+  color: #1890ff !important;
+}
+
+.custom-input.ant-input-password .ant-input-password-icon {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.custom-input.ant-input-password:hover .ant-input-password-icon,
+.custom-input.ant-input-password-focused .ant-input-password-icon {
+  color: #1890ff;
+}
+
+.custom-input:hover,
+.custom-input:focus {
+  transform: translateZ(20px);
+  box-shadow: 0 8px 32px rgba(24, 144, 255, 0.2);
+}
+
+.custom-input:hover {
+  transform: translateZ(20px) scale(1.02);
+}
+
+.login-button {
+  background: linear-gradient(45deg, #1890ff, #722ed1) !important;
+  border: none !important;
+  height: 50px;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: all 0.3s ease;
+}
+
+.login-button:hover {
+  transform: translateZ(30px) scale(1.05);
+  box-shadow: 0 15px 35px rgba(24, 144, 255, 0.3),
+    0 0 20px rgba(24, 144, 255, 0.5);
+}
+
+.floating-elements {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.floating-element {
+  position: absolute;
+  background: linear-gradient(45deg, #1890ff20, #722ed120);
+  border-radius: 50%;
+  filter: blur(5px);
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateZ(0);
+  }
+  50% {
+    transform: translateZ(50px);
+  }
+}
+
+/* Animations copied from RegisterPage.css */
+@keyframes gradientMove {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes titlePulse {
+  0% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes cardFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes lightSweep {
+  0% {
+    transform: rotate(45deg) translateY(-100%);
+  }
+  100% {
+    transform: rotate(45deg) translateY(100%);
+  }
+}
+
+@keyframes inputShine {
+  0% {
+    left: -100%;
+  }
+  50%,
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes buttonShine {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes loadingPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(24, 144, 255, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(24, 144, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(24, 144, 255, 0);
+  }
+}
+
+@keyframes modalPop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Enhanced Eye Styles */
+.eyes-container {
+  position: absolute;
+  width: 240px;
+  height: 120px;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  filter: drop-shadow(0 0 30px rgba(24, 144, 255, 0.3));
+  perspective: 1000px;
+  animation: eyesFloat 6s ease-in-out infinite;
+}
+
+.eye {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
+  border-radius: 50%;
+  position: relative;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2),
+    0 0 30px rgba(24, 144, 255, 0.2), inset 0 0 10px rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: all 0.3s ease;
+}
+
+.eye::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+  border-radius: 50%;
+  animation: eyeShine 5s linear infinite;
+}
+
+.pupil {
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle at 30% 30%, #000000, #1a1a1a);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.8),
+    inset 0 0 8px rgba(255, 255, 255, 0.4);
+  transition: all 0.1s ease;
+}
+
+.pupil::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle at center, #ffffff 30%, transparent 70%);
+  border-radius: 50%;
+  top: 15%;
+  left: 15%;
+  filter: blur(1px);
+}
+
+.eye-blink {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
+  transform-origin: center;
+  border-radius: 50%;
+  transform: scaleY(0.1);
+  opacity: 0;
+  transition: all 0.1s ease;
+}
+
+.eye:hover {
+  transform: scale(1.1) translateZ(20px);
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.2),
+    0 0 40px rgba(24, 144, 255, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.8);
+}
+
+.eye:hover .pupil {
+  width: 35px;
+  height: 35px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8),
+    inset 0 0 12px rgba(255, 255, 255, 0.4);
+}
+
+@keyframes eyeShine {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateX(-100%) rotate(35deg);
+  }
+  10%,
+  90% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(100%) rotate(35deg);
+  }
+}
+
+/* Eye container floating animation */
+@keyframes eyesFloat {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+}
+
+.energy-ring {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid rgba(24, 144, 255, 0.2);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.energy-ring::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #1890ff, #722ed1) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  animation: ringRotate 10s linear infinite;
+}
+
+@keyframes ringRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.1);
+  }
+}
+
+.matrix-rain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.matrix-column {
+  position: absolute;
+  top: -20px;
+  font-family: monospace;
+  font-size: 20px;
+  color: #1890ff;
+  text-shadow: 0 0 5px #1890ff;
+  white-space: nowrap;
+}
+
+.cursor-effect {
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(
+    circle at center,
+    rgba(24, 144, 255, 0.15),
+    rgba(114, 46, 209, 0.05),
+    transparent 70%
+  );
+  pointer-events: none;
+  transform: translate(-50%, -50%) translateZ(100px);
+  z-index: 0;
+  transition: all 0.1s ease;
+  mix-blend-mode: screen;
+}
+
+.cursor-glow {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background: #1890ff;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  filter: blur(5px);
+  opacity: 0.5;
+  transition: all 0.1s ease;
+}
+
+.particle {
+  position: absolute;
+  background: linear-gradient(45deg, #1890ff20, #722ed120);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(5px);
+  transform-style: preserve-3d;
+  animation: particle3D 4s ease-in-out infinite;
+  transform: translateZ(var(--depth));
+}
+
+@keyframes particle3D {
+  0%,
+  100% {
+    transform: translateZ(0) rotate(0deg);
+  }
+  50% {
+    transform: translateZ(100px) rotate(180deg);
+  }
+}

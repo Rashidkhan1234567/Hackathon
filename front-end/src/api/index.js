@@ -1,3 +1,8 @@
-const api = import.meta.env.VITE_API;
+const apiUser = import.meta.env.VITE_API_USER_PORT;
+const admin = import.meta.env.VITE_API_ADMIN_PORT;
 
-export default api;
+
+export default {
+  apiUser,
+  admin,
+};

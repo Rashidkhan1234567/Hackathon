@@ -1,211 +1,212 @@
-import React, { useState } from "react";
-import { Card, Select, Input, Button, Typography, Form, Slider } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from 'react'; 
+import { Layout, Typography, Card, Row, Col, List, Button, Spin, message } from 'antd';
+import { HomeOutlined, ShopOutlined, BankOutlined, ReadOutlined, ArrowRightOutlined, ThunderboltOutlined, SecurityScanOutlined, CustomerServiceOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+import '../styles/LandingPage.css';
+import LoadingOverlay from '../components/LoadingOverlay';
+import Landing3DBackground from '../components/Landing3DBackground';
 
-const { Title, Text } = Typography;
-const { Option } = Select;
-
-const categories = [
-  {
-    title: "Wedding Loans",
-    subcategories: ["Valima", "Furniture", "Valima Food", "Jahez"],
-    maxLoan: 500000,
-    loanPeriod: 3, // in years
-  },
-  {
-    title: "Home Construction Loans",
-    subcategories: ["Structure", "Finishing", "Loan"],
-    maxLoan: 1000000,
-    loanPeriod: 5, // in years
-  },
-  {
-    title: "Business Startup Loans",
-    subcategories: [
-      "Buy Stall",
-      "Advance Rent for Shop",
-      "Shop Assets",
-      "Shop Machinery",
-    ],
-    maxLoan: 1000000,
-    loanPeriod: 5, // in years
-  },
-  {
-    title: "Education Loans",
-    subcategories: ["University Fees", "Child Fees Loan"],
-    maxLoan: "Based on requirement",
-    loanPeriod: 4, // in years
-  },
-];
+const { Content } = Layout;
+const { Title, Paragraph } = Typography;
 
 const LandingPage = () => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedSubcategory, setSelectedSubcategory] = useState(null);
-  const [amount, setAmount] = useState(0);
-  const [timePeriod, setTimePeriod] = useState(0);
-  const [calculatedLoan, setCalculatedLoan] = useState(null);
   const navigate = useNavigate();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [loadingCardIndex, setLoadingCardIndex] = useState(null);
+  const [pageLoading, setPageLoading] = useState(false);
+  const [activeCard, setActiveCard] = useState(0);
 
-  const handleCategoryChange = (value) => {
-    const category = categories.find((cat) => cat.title === value);
-    setSelectedCategory(category);
-    setSelectedSubcategory(null);
-    setAmount(0);
-    setTimePeriod(category?.loanPeriod || 0);
-    setCalculatedLoan(null);
+  useEffect(() => {
+    setIsLoaded(true);
+    // Add entrance class to body for background animation
+    document.body.classList.add('page-loaded');
+    return () => document.body.classList.remove('page-loaded');
+  }, []);
+
+  const loanCategories = [
+    {
+      title: "Wedding Loans",
+      icon: <BankOutlined className="category-icon" />,
+      maxLoan: 500000,
+      loanPeriod: 3,
+      description: "Start your new life journey with our flexible wedding loans",
+      subCategories: ["Valima", "Furniture", "Valima Food", "Jahez"],
+      gradient: "wedding-gradient",
+      themeColor: "#4F46E5"
+    },
+    {
+      title: "Home Construction Loans",
+      icon: <HomeOutlined className="category-icon home" />,
+      maxLoan: 1000000,
+      loanPeriod: 5,
+      description: "Build your dream home with our construction financing options",
+      subCategories: ["Structure", "Finishing", "Loan"],
+      gradient: "home-gradient"
+    },
+    {
+      title: "Business Startup Loans",
+      icon: <ShopOutlined className="category-icon business" />,
+      maxLoan: 1000000,
+      loanPeriod: 5,
+      description: "Transform your business ideas into reality",
+      subCategories: ["Buy Stall", "Advance Rent for Shop", "Shop Assets", "Shop Machinery"],
+      gradient: "business-gradient"
+    },
+    {
+      title: "Education Loans",
+      icon: <ReadOutlined className="category-icon education" />,
+      maxLoan: 1000000,
+      loanPeriod: 5,
+      description: "Invest in your future with our education financing solutions",
+      subCategories: ["University Fees", "Child Fees Loan"],
+      gradient: "education-gradient"
+    }
+  ];
+
+  const animateTitle = (text) => {
+    return text.split('').map((char, i) => (
+      <span key={i} style={{ '--char-index': i }}>
+        {char}
+      </span>
+    ));
   };
 
-  const handleCalculate = () => {
-    if (!selectedCategory || !amount || !timePeriod) return;
-    if (amount > selectedCategory.maxLoan) {
-      alert(
-        `Loan amount exceeds the maximum limit of PKR ${selectedCategory.maxLoan}`
-      );
-      return;
+  const handleApplyNow = async (e, category, index) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Store loan data immediatelyy
+    const { title, maxLoan, loanPeriod, description, subCategories } = category;
+    const selectedLoan = { title, maxLoan, loanPeriod, description, subCategories };
+    localStorage.setItem('selectedLoan', JSON.stringify(selectedLoan));
+    
+    // Navigate without delay
+    navigate('/loan');
+  };
+
+  const handleScroll = (e) => {
+    if (window.innerWidth <= 1400) {
+      const container = e.target;
+      const scrollPosition = container.scrollLeft;
+      const cardWidth = 320; // card width + gap
+      const newActiveCard = Math.round(scrollPosition / cardWidth);
+      setActiveCard(newActiveCard);
     }
-    setCalculatedLoan({
-      amount,
-      loanPeriod: `${timePeriod} years`,
-      monthlyInstallment: (amount / (timePeriod * 12)).toFixed(2),
-    });
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
-        background: "linear-gradient(to bottom right, #4caf50, #81c784)",
-        padding: "20px",
-      }}
-    >
-      <Card
-        style={{
-          width: "100%",
-          maxWidth: "600px",
-          padding: "30px",
-          borderRadius: "12px",
-          boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
-          backgroundColor: "#ffffff",
-        }}
-      >
-        <Title level={3} style={{ textAlign: "center", color: "#4caf50" }}>
-          Apply for a Loan
-        </Title>
-        <Form layout="vertical">
-          {/* Select Category */}
-          <Form.Item label="Select Category">
-            <Select
-              placeholder="Choose a category"
-              onChange={handleCategoryChange}
-              value={selectedCategory?.title || null}
-            >
-              {categories.map((category) => (
-                <Option key={category.title} value={category.title}>
-                  {category.title}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
+    <Layout className={`modern-layout ${isLoaded ? 'loaded' : ''}`}>
+      <Landing3DBackground />
+      {pageLoading && <LoadingOverlay />}
+      <Content className={loading ? 'page-blur' : ''}>
+        <div className="entrance-overlay"></div>
+        <div className={`hero-section ${isLoaded ? 'animate-hero' : ''}`}>
+          <Title level={1} className="main-title">
+            {animateTitle('Welcome to Microfinance Solutions')}
+          </Title>
+          <Paragraph className="hero-subtitle">
+            Empowering dreams through flexible and accessible financial solutions
+          </Paragraph>
+          <Button type="primary" size="large" className="cta-button">
+            Explore Loans <ArrowRightOutlined className="btn-icon" />
+          </Button>
+        </div>
 
-          {/* Select Subcategory */}
-          {selectedCategory && (
-            <Form.Item label="Select Subcategory">
-              <Select
-                placeholder="Choose a subcategory"
-                onChange={(value) => setSelectedSubcategory(value)}
-                value={selectedSubcategory || null}
-              >
-                {selectedCategory.subcategories.map((subcategory) => (
-                  <Option key={subcategory} value={subcategory}>
-                    {subcategory}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          )}
+        <div className="category-section" onScroll={handleScroll}>
+          <Row>
+            {loanCategories.map((category, index) => (
+              <Col key={index} className={`animate-card-entrance delay-${index}`}>
+                <Card
+                  className={`loan-card ${category.gradient}`}
+                  cover={
+                    <div className="card-icon-wrapper">
+                      {category.icon}
+                      <Title level={4} className="icon-title">
+                        {category.title}
+                      </Title>
+                    </div>
+                  }
+                >
+                  <div className="card-content">
+                    <Paragraph className="loan-description">
+                      {category.description}
+                    </Paragraph>
+                    
+                    <div className="loan-details">
+                      <div className="loan-amount">
+                        <span className="detail-label">Maximum Loan</span>
+                        <h3 className="detail-value">Rs. {category.maxLoan.toLocaleString()}</h3>
+                      </div>
+                      <div className="loan-period">
+                        <span className="detail-label">Duration</span>
+                        <h3 className="detail-value">{category.loanPeriod} years</h3>
+                      </div>
+                    </div>
 
-          {/* Enter Loan Amount */}
-          {selectedCategory && (
-            <Form.Item label="Enter Loan Amount">
-              <Input
-                type="number"
-                placeholder={`Maximum PKR ${selectedCategory.maxLoan}`}
-                onChange={(e) => setAmount(Number(e.target.value))}
-                value={amount || ""}
+                    <List
+                      className="subcategory-list"
+                      dataSource={category.subCategories}
+                      renderItem={(item) => (
+                        <List.Item className="subcategory-item">
+                          <ArrowRightOutlined className="arrow-icon" />
+                          <span>{item}</span>
+                        </List.Item>
+                      )}
+                    />
+                    
+                    <Button 
+                      type="primary" 
+                      className="apply-button"
+                      onClick={(e) => handleApplyNow(e, category, index)}
+                    >
+                      Apply Now
+                    </Button>
+                  </div>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+          
+          {/* Scroll Indicator */}
+          <div className="scroll-indicator">
+            {loanCategories.map((_, index) => (
+              <div 
+                key={index}
+                className={`scroll-dot ${activeCard === index ? 'active' : ''}`}
               />
-            </Form.Item>
-          )}
+            ))}
+          </div>
+        </div>
 
-          {/* Select Time Period */}
-          {selectedCategory && (
-            <Form.Item label="Select Time Period (Years)">
-              <Slider
-                min={1}
-                max={selectedCategory.loanPeriod}
-                onChange={(value) => setTimePeriod(value)}
-                value={timePeriod}
-                marks={{
-                  1: "1 year",
-                  [selectedCategory.loanPeriod]: `${selectedCategory.loanPeriod} years`,
-                }}
-              />
-            </Form.Item>
-          )}
-
-          {/* Calculate Button */}
-          <Form.Item>
-            <Button
-              type="primary"
-              block
-              onClick={handleCalculate}
-              disabled={!selectedCategory || !amount || !timePeriod}
-            >
-              Calculate
-            </Button>
-          </Form.Item>
-
-          {/* Display Calculated Loan Details */}
-          {calculatedLoan && (
-            <div
-              style={{
-                padding: "16px",
-                border: "1px solid #4caf50",
-                borderRadius: "8px",
-                marginBottom: "16px",
-                backgroundColor: "#f1f8e9",
-              }}
-            >
-              <Text>
-                <strong>Loan Amount:</strong> PKR {calculatedLoan.amount}
-              </Text>
-              <br />
-              <Text>
-                <strong>Loan Period:</strong> {calculatedLoan.loanPeriod}
-              </Text>
-              <br />
-              <Text>
-                <strong>Monthly Installment:</strong> PKR{" "}
-                {calculatedLoan.monthlyInstallment}
-              </Text>
-            </div>
-          )}
-
-          {/* Process Button */}
-          <Form.Item>
-            <Button
-              type="default"
-              block
-              onClick={() => navigate("/guarantors")}
-              disabled={!calculatedLoan}
-            >
-              Process
-            </Button>
-          </Form.Item>
-        </Form>
-      </Card>
-    </div>
+        <div className={`features-section ${isLoaded ? 'animate-features' : ''}`}>
+          <Title level={2} className="section-title">Why Choose Us?</Title>
+          <Row gutter={[24, 24]}>
+            <Col xs={24} sm={12} md={8}>
+              <Card className="feature-card processing-card">
+                <ThunderboltOutlined className="feature-icon" />
+                <Title level={4}>Quick Processing</Title>
+                <Paragraph>Fast loan approval and disbursement process</Paragraph>
+              </Card>
+            </Col>
+            <Col xs={24} sm={12} md={8}>
+              <Card className="feature-card flexible-card">
+                <SecurityScanOutlined className="feature-icon" />
+                <Title level={4}>Flexible Terms</Title>
+                <Paragraph>Customizable repayment options to suit your needs</Paragraph>
+              </Card>
+            </Col>
+            <Col xs={24} sm={12} md={8}>
+              <Card className="feature-card support-card">
+                <CustomerServiceOutlined className="feature-icon" />
+                <Title level={4}>Support</Title>
+                <Paragraph>24/7 customer support and guidance</Paragraph>
+              </Card>
+            </Col>
+          </Row>
+        </div>
+      </Content>
+    </Layout>
   );
 };
 

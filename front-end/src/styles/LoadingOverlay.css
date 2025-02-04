@@ -1,0 +1,57 @@
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.loading-content {
+  text-align: center;
+  animation: fadeInUp 0.3s ease;
+}
+
+.loading-content p {
+  color: white;
+  margin-top: 16px;
+  font-size: 16px;
+  animation: pulse 1.5s infinite;
+}
+
+.loading-content .ant-spin {
+  transform: scale(1.5);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-blur {
+  filter: blur(4px);
+  pointer-events: none;
+  transition: filter 0.3s ease;
+}
