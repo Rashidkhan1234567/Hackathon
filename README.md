@@ -1,4 +1,4 @@
-# 🚀 Full-Stack Project
+# 🚀 MERN-Stack Project
 
 This repository contains both the **Frontend** and **Backend** of the project. Make sure to start the backend first for the frontend functionalities to work properly. 🔥
 
